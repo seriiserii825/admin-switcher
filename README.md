@@ -54,4 +54,4 @@ Move the cursor up the WordPress admin bar.
 Click one of the links to go to/from the admin.</td>
         <td>Hit cmd/ctrl + shift + A</td>
     </tr>
-</table>
+</table># admin-switcher
