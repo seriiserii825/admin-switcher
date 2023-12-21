@@ -4,14 +4,12 @@ chrome.runtime.onInstalled.addListener(async () => {
     const tabs = await chrome.tabs.query({});
     tabs.forEach((tab) => {
         activeTabs.add(tab.id);
-        // changeStatus(tab.id)
-        chrome.action.setBadgeText({text: "", tabId: tab.id}, () => {});
+        changeStatus(tab.id)
     });
 });
 chrome.tabs.onCreated.addListener(function(tab) {
     activeTabs.add(tab.id);
-    // changeStatus(tab.id)
-    chrome.action.setBadgeText({text: "", tabId: tab.id}, () => {});
+    changeStatus(tab.id)
 });
 
 chrome.tabs.onRemoved.addListener((tabId) => {
@@ -21,9 +19,11 @@ chrome.tabs.onRemoved.addListener((tabId) => {
 });
 const changeStatus = (tabId) => {
     if (activeTabs.has(tabId)) {
-        chrome.action.setBadgeText({text: "ON", tabId: tabId}, () => {});
+        chrome.action.setBadgeText({text: "ON", tabId: tabId}, () => {
+        });
     } else {
-        chrome.action.setBadgeText({text: "", tabId: tabId}, () => {});
+        chrome.action.setBadgeText({text: "", tabId: tabId}, () => {
+        });
     }
 };
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {

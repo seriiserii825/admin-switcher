@@ -1,11 +1,42 @@
 let lastClipboardData = "";
 let noCheckClipboard = false;
+
 const origin = window.location.origin;
 const wp_admin = origin + '/wp-admin';
 const gestione = origin + '/gestione';
 
 
-function goToFront() {
+const startHandleClipboard = () => {
+    console.log('go to admin')
+    goToFront();
+};
+const stopHandleClipboard = () => {
+    goToAdmin();
+    console.log('go to front')
+};
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    switch (request.type) {
+        case "enable": {
+            if (request.value) {
+                startHandleClipboard();
+            } else {
+                stopHandleClipboard();
+            }
+            sendResponse({ ok: true });
+            return;
+        }
+    }
+    sendResponse({ ok: true });
+});
+chrome.runtime.sendMessage({ type: "status" }, (res) => {
+    if (res?.active) {
+        // startHandleClipboard();
+    } else {
+        // stopHandleClipboard();
+    }
+});
+
+function goToAdmin() {
     function isUrlValid(url) {
         return fetch(url, {method: 'HEAD'})
             .then(response => {
@@ -39,38 +70,6 @@ function goToFront() {
         });
 }
 
-function goToAdmin() {
+function goToFront() {
     window.location = origin;
 }
-
-const startHandleClipboard = () => {
-    document.addEventListener("mouseup", goToFront);
-};
-const stopHandleClipboard = () => {
-    document.removeEventListener("mouseup", goToAdmin);
-};
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    switch (request.type) {
-        case "enable": {
-            if (request.value) {
-                console.log('value true')
-                goToFront();
-                // startHandleClipboard();
-            } else {
-                console.log('value false')
-                goToAdmin();
-                // stopHandleClipboard();
-            }
-            sendResponse({ok: true});
-            return;
-        }
-    }
-    sendResponse({ok: true});
-});
-chrome.runtime.sendMessage({type: "status"}, (res) => {
-    if (res?.active) {
-        startHandleClipboard();
-    } else {
-        stopHandleClipboard();
-    }
-});
