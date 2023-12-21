@@ -34,12 +34,10 @@
     "service_worker": "js/background.js"
   },
   "commands": {
-    "move-to-last": {
+    "_execute_action": {
       "suggested_key": {
-        "default": "Ctrl+Shift+Right",
-        "mac": "Command+Shift+Right"
-      },
-      "description": "Сделать вкладку последней"
+        "default": "Alt+W"
+      }
     }
   }
 }
